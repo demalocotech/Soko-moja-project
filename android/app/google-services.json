@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "980367378905",
+    "project_id": "sokomoja-app",
+    "storage_bucket": "sokomoja-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980367378905:android:f4189740c0eeaa3b2df1c8",
+        "android_client_info": {
+          "package_name": "com.sokomoja.sokomoja_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980367378905-k9ku0t7pc7amu1t2foia86s63c9lmqg1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sokomoja.sokomoja_project",
+            "certificate_hash": "46cf1e3497bc9c19888fc53b3c38deb97496a184"
+          }
+        },
+        {
+          "client_id": "980367378905-033u3io5n5i4vhrofpcdujlokl9d1ggv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApetofQBqvvTN0BeQZMeOhfcXVfozwIYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980367378905-033u3io5n5i4vhrofpcdujlokl9d1ggv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
