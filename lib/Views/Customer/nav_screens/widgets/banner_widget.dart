@@ -49,6 +49,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     imageUrl: _bannerImage[index],
+                    fit: BoxFit.cover,
                     placeholder: (context, url) => CircularProgressIndicator(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
