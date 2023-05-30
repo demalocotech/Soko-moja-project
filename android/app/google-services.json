@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:980367378905:android:f4189740c0eeaa3b2df1c8",
+        "mobilesdk_app_id": "1:980367378905:android:6c658801d4ccbb542df1c8",
         "android_client_info": {
           "package_name": "com.sokomoja.sokomoja_project"
         }
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "980367378905-033u3io5n5i4vhrofpcdujlokl9d1ggv.apps.googleusercontent.com",
+          "client_id": "980367378905-e4sge2vheuvmbf3uj8hr624fd3mkjljs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
