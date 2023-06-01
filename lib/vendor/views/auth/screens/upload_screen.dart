@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sokomoja_project/provider/product_provider.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/upload_tab_screens/attributes_tab_screen.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/upload_tab_screens/general_screen.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/upload_tab_screens/images_tab_screen.dart';
@@ -9,6 +11,8 @@ class VendorUploadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProductProvider _productProvider =
+        Provider.of<ProductProvider>(context);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -39,6 +43,15 @@ class VendorUploadScreen extends StatelessWidget {
             AttributeTabScreen(),
             ImagesTabScreen(),
           ],
+        ),
+        bottomSheet: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              print(_productProvider.productData['productName']);
+            },
+            child: Text('save'),
+          ),
         ),
       ),
     );

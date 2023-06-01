@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sokomoja_project/provider/product_provider.dart';
 
 class GeneralTabScreen extends StatefulWidget {
   @override
@@ -30,6 +32,8 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
   }
 
   Widget build(BuildContext context) {
+    final ProductProvider _productProvider =
+        Provider.of<ProductProvider>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -37,6 +41,9 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
           child: Column(
             children: [
               TextFormField(
+                onChanged: (value) {
+                  _productProvider.getFormData(productName: value);
+                },
                 decoration: InputDecoration(labelText: 'Enter Product Name'),
               ),
               SizedBox(

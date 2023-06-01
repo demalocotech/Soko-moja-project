@@ -1,13 +1,23 @@
+import 'dart:ffi';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:sokomoja_project/Views/Customer/auth/login_screen.dart';
+import 'package:sokomoja_project/Views/Customer/main_screen.dart';
+import 'package:sokomoja_project/provider/product_provider.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/main_vendor_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) {
+      return ProductProvider();
+    })
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

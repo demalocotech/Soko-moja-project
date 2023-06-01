@@ -45,6 +45,8 @@ dependencies:
   country_state_city_picker: ^1.2.8
   flutter_easyloading: ^3.0.5
   flutterfire_ui: ^0.4.3+20
+  provider: ^6.0.5
+  
   
 
 
