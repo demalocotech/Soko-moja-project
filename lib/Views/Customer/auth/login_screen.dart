@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sokomoja_project/Controllers/auth_controller.dart';
 import 'package:sokomoja_project/Utils/show_snackbar.dart';
 import 'package:sokomoja_project/Views/Customer/auth/register_screen.dart';
-
 import '../main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -140,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return RegisterScreen();
+                        return CustomerRegisterScreen();
                       }));
                     },
                     child: Text('Register'),

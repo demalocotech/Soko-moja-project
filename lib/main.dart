@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'Views/Customer/auth/register_screen.dart';
+import 'package:sokomoja_project/vendor/views/auth/screens/main_vendor_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Soko-Bold',
       ),
-      home: RegisterScreen(),
+      home: MainVendorScreen(),
     );
   }
 }

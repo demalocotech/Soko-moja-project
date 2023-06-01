@@ -7,12 +7,12 @@ import 'package:sokomoja_project/Controllers/auth_controller.dart';
 import 'package:sokomoja_project/Utils/show_snackbar.dart';
 import 'package:sokomoja_project/Views/Customer/auth/login_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
+class CustomerRegisterScreen extends StatefulWidget {
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<CustomerRegisterScreen> createState() => _CustomerRegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
   final _authcontroller = AuthController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
