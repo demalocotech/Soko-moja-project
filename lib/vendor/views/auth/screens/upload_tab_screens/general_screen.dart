@@ -50,12 +50,19 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
                 height: 30,
               ),
               TextFormField(
+                onChanged: (value) {
+                  _productProvider.getFormData(
+                      productPrice: double.parse(value));
+                },
                 decoration: InputDecoration(labelText: 'Enter Product Price'),
               ),
               SizedBox(
                 height: 30,
               ),
               TextFormField(
+                onChanged: (value) {
+                  _productProvider.getFormData(quantity: int.parse(value));
+                },
                 decoration:
                     InputDecoration(labelText: 'Enter Product Quantity'),
               ),
@@ -67,11 +74,18 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
                   items: _categoryList.map<DropdownMenuItem<String>>((e) {
                     return DropdownMenuItem(value: e, child: Text(e));
                   }).toList(),
-                  onChanged: ((value) {})),
+                  onChanged: ((value) {
+                    setState(() {
+                      _productProvider.getFormData(category: value);
+                    });
+                  })),
               SizedBox(
                 height: 30,
               ),
               TextFormField(
+                onChanged: (value) {
+                  _productProvider.getFormData(productDescription: value);
+                },
                 maxLines: 10,
                 maxLength: 250,
                 decoration: InputDecoration(

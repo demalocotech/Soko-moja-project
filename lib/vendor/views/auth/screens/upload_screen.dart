@@ -49,6 +49,11 @@ class VendorUploadScreen extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               print(_productProvider.productData['productName']);
+              print(_productProvider.productData['productPrice']);
+              print(_productProvider.productData['quantity']);
+              print(_productProvider.productData['category']);
+              print(_productProvider.productData['productDescription']);
+              print(_productProvider.productData['imageUrls']);
             },
             child: Text('save'),
           ),
