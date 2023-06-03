@@ -47,6 +47,9 @@ class VendorUploadScreen extends StatelessWidget {
         bottomSheet: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.lightGreen.shade900,
+            ),
             onPressed: () {
               print(_productProvider.productData['productName']);
               print(_productProvider.productData['productPrice']);
