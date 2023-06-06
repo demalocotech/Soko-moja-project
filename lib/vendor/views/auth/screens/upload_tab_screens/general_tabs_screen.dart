@@ -8,7 +8,10 @@ class GeneralTabScreen extends StatefulWidget {
   State<GeneralTabScreen> createState() => _GeneralTabScreenState();
 }
 
-class _GeneralTabScreenState extends State<GeneralTabScreen> {
+class _GeneralTabScreenState extends State<GeneralTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final List<String> _categoryList = [];
 
@@ -32,6 +35,7 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return Scaffold(
@@ -41,6 +45,13 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
           child: Column(
             children: [
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Name';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (value) {
                   _productProvider.getFormData(productName: value);
                 },
@@ -50,6 +61,13 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
                 height: 30,
               ),
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Price';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (value) {
                   _productProvider.getFormData(
                       productPrice: double.parse(value));
@@ -60,6 +78,13 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
                 height: 30,
               ),
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Quantity';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (value) {
                   _productProvider.getFormData(quantity: int.parse(value));
                 },
@@ -83,6 +108,13 @@ class _GeneralTabScreenState extends State<GeneralTabScreen> {
                 height: 30,
               ),
               TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Product Description';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (value) {
                   _productProvider.getFormData(productDescription: value);
                 },

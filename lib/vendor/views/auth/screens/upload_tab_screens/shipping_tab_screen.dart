@@ -9,12 +9,16 @@ class ShippingTabScreen extends StatefulWidget {
   State<ShippingTabScreen> createState() => _ShippingTabScreenState();
 }
 
-class _ShippingTabScreenState extends State<ShippingTabScreen> {
+class _ShippingTabScreenState extends State<ShippingTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   bool? _chargeDelivery = false;
   late int _deliveryCharge;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return Column(
@@ -38,6 +42,13 @@ class _ShippingTabScreenState extends State<ShippingTabScreen> {
         ),
         if (_chargeDelivery == true)
           TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Enter Delivery Charge';
+              } else {
+                return null;
+              }
+            },
             onChanged: (value) {
               _deliveryCharge = int.parse(value);
               _productProvider.getFormData(deliveryCharge: _deliveryCharge);

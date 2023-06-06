@@ -1,18 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CategoryText extends StatelessWidget {
-  final List<String> _categorylabel = [
-    'Food',
-    'vegetable',
-    'egg',
-    'tea',
-    'potatoes',
-    'test1',
-    'meat',
-    'rosecoco'
-  ];
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _categoryStream =
+        FirebaseFirestore.instance.collection('categories').snapshots();
+
     return Padding(
       padding: const EdgeInsets.all(9.0),
       child: Column(
@@ -24,41 +18,59 @@ class CategoryText extends StatelessWidget {
               fontSize: 19,
             ),
           ),
-          Container(
-            height: 40,
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _categorylabel.length,
-                    itemBuilder: ((context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ActionChip(
-                          backgroundColor: Color.fromARGB(255, 33, 140, 40),
-                          onPressed: () {},
-                          label: Center(
-                            child: Text(
-                              _categorylabel[index],
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+          StreamBuilder<QuerySnapshot>(
+            stream: _categoryStream,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Loading categories"),
+                );
+              }
+
+              return Container(
+                height: 40,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: ((context, index) {
+                          final categoryData = snapshot.data!.docs[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: ActionChip(
+                              backgroundColor: Color.fromARGB(255, 33, 140, 40),
+                              onPressed: () {},
+                              label: Center(
+                                child: Text(
+                                  categoryData['categoryName'],
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                          );
+                        }),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.arrow_forward_ios),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
-              ],
-            ),
-          ),
+              );
+            },
+          )
         ],
       ),
     );

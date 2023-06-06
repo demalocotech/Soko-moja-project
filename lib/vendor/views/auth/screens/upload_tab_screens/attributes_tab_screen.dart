@@ -7,7 +7,10 @@ class AttributeTabScreen extends StatefulWidget {
   State<AttributeTabScreen> createState() => _AttributeTabScreenState();
 }
 
-class _AttributeTabScreenState extends State<AttributeTabScreen> {
+class _AttributeTabScreenState extends State<AttributeTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final TextEditingController _sizeController = TextEditingController();
 
   String? _brandName;
@@ -16,8 +19,11 @@ class _AttributeTabScreenState extends State<AttributeTabScreen> {
 
   List<String> _sizeList = [];
 
+  bool isSave = false;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return Padding(
@@ -25,6 +31,13 @@ class _AttributeTabScreenState extends State<AttributeTabScreen> {
       child: Column(
         children: [
           TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Enter Product Brand Name';
+              } else {
+                return null;
+              }
+            },
             onChanged: (value) {
               _brandName = value;
               _productProvider.getFormData(brandName: _brandName);
@@ -63,6 +76,7 @@ class _AttributeTabScreenState extends State<AttributeTabScreen> {
                       onPressed: () {
                         setState(() {
                           _sizeList.add(_sizeController.text);
+                          _sizeController.clear();
                         });
                         print(_sizeList);
                       },
@@ -71,6 +85,64 @@ class _AttributeTabScreenState extends State<AttributeTabScreen> {
                   : Text(''),
             ],
           ),
+          if (_sizeList.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                height: 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _sizeList.length,
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _sizeList.removeAt(index);
+                            _productProvider.getFormData(sizeList: _sizeList);
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.lightGreen.shade800,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              _sizeList[index],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          if (_sizeList.isNotEmpty)
+            ElevatedButton(
+              style:
+                  ElevatedButton.styleFrom(primary: Colors.lightGreen.shade900),
+              onPressed: () {
+                _productProvider.getFormData(sizeList: _sizeList);
+                setState(() {
+                  isSave = true;
+                });
+              },
+              child: Text(
+                isSave ? 'Saved' : 'Save',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 4,
+                ),
+              ),
+            ),
         ],
       ),
     );

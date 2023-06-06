@@ -13,7 +13,10 @@ class ImagesTabScreen extends StatefulWidget {
   State<ImagesTabScreen> createState() => _ImagesTabScreenState();
 }
 
-class _ImagesTabScreenState extends State<ImagesTabScreen> {
+class _ImagesTabScreenState extends State<ImagesTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final ImagePicker picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
@@ -34,6 +37,7 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final ProductProvider _productProvider =
         Provider.of<ProductProvider>(context);
     return Padding(
@@ -80,14 +84,16 @@ class _ImagesTabScreenState extends State<ImagesTabScreen> {
                   await ref.getDownloadURL().then((value) {
                     setState(() {
                       _imageUrlList.add(value);
-                      _productProvider.getFormData(imageUrls: _imageUrlList);
-                      EasyLoading.dismiss();
                     });
                   });
                 });
               }
+              setState(() {
+                _productProvider.getFormData(imageUrls: _imageUrlList);
+                EasyLoading.dismiss();
+              });
             },
-            child: Text('upload'),
+            child: _image.isNotEmpty ? Text('upload') : Text(''),
           ),
         ],
       ),

@@ -5,17 +5,17 @@ class ProductProvider with ChangeNotifier {
 
   //Save data to provider
 
-  getFormData({
-    String? productName,
-    double? productPrice,
-    int? quantity,
-    String? category,
-    String? productDescription,
-    List<String>? imageUrls,
-    bool? chargeDelivery,
-    int? deliveryCharge,
-    String? brandName,
-  }) {
+  getFormData(
+      {String? productName,
+      double? productPrice,
+      int? quantity,
+      String? category,
+      String? productDescription,
+      List<String>? imageUrls,
+      bool? chargeDelivery,
+      int? deliveryCharge,
+      String? brandName,
+      List<String>? sizeList}) {
     if (productName != null) {
       productData['productName'] = productName;
     }
@@ -43,5 +43,14 @@ class ProductProvider with ChangeNotifier {
     if (brandName != null) {
       productData['brandName'] = brandName;
     }
+    if (sizeList != null) {
+      productData['sizeList'] = sizeList;
+    }
+    notifyListeners();
+  }
+
+  clearData() {
+    productData.clear();
+    notifyListeners();
   }
 }
