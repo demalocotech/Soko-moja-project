@@ -1,7 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sokomoja_project/Views/Customer/nav_screens/widgets/home_product.dart';
 
-class CategoryText extends StatelessWidget {
+class CategoryText extends StatefulWidget {
+  @override
+  State<CategoryText> createState() => _CategoryTextState();
+}
+
+class _CategoryTextState extends State<CategoryText> {
+  String? _selectedCategory;
+
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _categoryStream =
@@ -47,7 +55,12 @@ class CategoryText extends StatelessWidget {
                             padding: const EdgeInsets.all(3.0),
                             child: ActionChip(
                               backgroundColor: Color.fromARGB(255, 33, 140, 40),
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  _selectedCategory =
+                                      categoryData['categoryName'];
+                                });
+                              },
                               label: Center(
                                 child: Text(
                                   categoryData['categoryName'],
@@ -70,7 +83,9 @@ class CategoryText extends StatelessWidget {
                 ),
               );
             },
-          )
+          ),
+          if (_selectedCategory != null)
+            HomeProductsWidget(categoryName: _selectedCategory!),
         ],
       ),
     );
