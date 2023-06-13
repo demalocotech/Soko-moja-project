@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sokomoja_project/Views/Customer/nav_screens/widgets/home_product.dart';
+import 'package:sokomoja_project/Views/Customer/nav_screens/widgets/main_products_widget.dart';
 
 class CategoryText extends StatefulWidget {
   @override
@@ -84,6 +85,7 @@ class _CategoryTextState extends State<CategoryText> {
               );
             },
           ),
+          if (_selectedCategory == null) MainProductsWidget(),
           if (_selectedCategory != null)
             HomeProductsWidget(categoryName: _selectedCategory!),
         ],

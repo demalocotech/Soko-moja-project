@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class VendorRegistrationScreen extends StatefulWidget {
 
 class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final vendorController _vendorController = vendorController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String fullName;
@@ -27,6 +30,7 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
   late String stateValue;
   late String cityValue;
   Uint8List? _image;
+  final List<String> _marketList = [];
 
   selectGalleryImage() async {
     Uint8List im = await _vendorController.pickstoreImage(ImageSource.gallery);
@@ -61,7 +65,25 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
     }
   }
 
+  _getMarket() {
+    return _firestore
+        .collection('Markets')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          _marketList.add(doc['marketName']);
+        });
+      });
+    });
+  }
+
   @override
+  void initState() {
+    _getMarket();
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
@@ -220,11 +242,10 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                               width: 150,
                               child: DropdownButtonFormField(
                                   hint: Text('select'),
-                                  items: _marketOptions
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                        value: value, child: Text(value));
+                                  items: _marketList
+                                      .map<DropdownMenuItem<String>>((e) {
+                                    return DropdownMenuItem(
+                                        value: e, child: Text(e));
                                   }).toList(),
                                   onChanged: (value) {
                                     _marketStatus = value;

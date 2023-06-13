@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:provider/provider.dart';
+import 'package:sokomoja_project/provider/cart_provider.dart';
 
 class productDetailScreen extends StatefulWidget {
   final dynamic productData;
@@ -12,8 +15,11 @@ class productDetailScreen extends StatefulWidget {
 
 class _productDetailScreenState extends State<productDetailScreen> {
   int _imageIndex = 0;
+  String? _selectedSize;
   @override
   Widget build(BuildContext context) {
+    final CartProvider _cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -140,7 +146,87 @@ class _productDetailScreenState extends State<productDetailScreen> {
                 ),
               ],
             ),
+            ExpansionTile(
+              title: Text(
+                'Available sizes',
+              ),
+              children: [
+                Container(
+                  height: 50,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.productData['sizeList'].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedSize =
+                                  widget.productData['sizeList'][index];
+                              print(_selectedSize);
+                            });
+                          },
+                          child: Text(
+                            widget.productData['sizeList'][index],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ],
+        ),
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            _cartProvider.addProductToCart(
+              widget.productData['productName'],
+              widget.productData['productId'],
+              widget.productData['imageUrls'],
+              1,
+              widget.productData['productPrice'],
+              widget.productData['UserId'],
+              _selectedSize!,
+            );
+          },
+          child: Container(
+            height: 40,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.lightGreen.shade900,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    CupertinoIcons.cart,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'ADD TO CART',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      letterSpacing: 5,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
