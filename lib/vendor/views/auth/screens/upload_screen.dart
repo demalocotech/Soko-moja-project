@@ -81,6 +81,7 @@ class VendorUploadScreen extends StatelessWidget {
                     'sizeList': _productProvider.productData['sizeList'],
                     'addedAt': Timestamp.now(),
                     'UserId': FirebaseAuth.instance.currentUser!.uid,
+                    'approved': false,
                   }).whenComplete(() {
                     _productProvider.clearData();
                     _formKey.currentState!.reset();

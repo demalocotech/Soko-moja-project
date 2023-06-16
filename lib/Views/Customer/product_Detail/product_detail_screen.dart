@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
+import 'package:sokomoja_project/Utils/show_snackbar.dart';
 import 'package:sokomoja_project/provider/cart_provider.dart';
 
 class productDetailScreen extends StatefulWidget {
@@ -23,18 +24,18 @@ class _productDetailScreenState extends State<productDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'fee',
+          'Product Details',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
             letterSpacing: 5,
           ),
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightGreen.shade900,
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
       body: SingleChildScrollView(
@@ -149,6 +150,10 @@ class _productDetailScreenState extends State<productDetailScreen> {
             ExpansionTile(
               title: Text(
                 'Available sizes',
+                style: TextStyle(
+                  color: Colors.lightGreen.shade900,
+                  letterSpacing: 3,
+                ),
               ),
               children: [
                 Container(
@@ -159,16 +164,25 @@ class _productDetailScreenState extends State<productDetailScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedSize =
-                                  widget.productData['sizeList'][index];
-                              print(_selectedSize);
-                            });
-                          },
-                          child: Text(
-                            widget.productData['sizeList'][index],
+                        child: Container(
+                          color: _selectedSize ==
+                                  widget.productData['sizeList'][index]
+                              ? Colors.lightGreen.shade900
+                              : Colors.lightGreen,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectedSize =
+                                    widget.productData['sizeList'][index];
+                                print(_selectedSize);
+                              });
+                            },
+                            child: Text(
+                              widget.productData['sizeList'][index],
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -184,15 +198,21 @@ class _productDetailScreenState extends State<productDetailScreen> {
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () {
-            _cartProvider.addProductToCart(
-              widget.productData['productName'],
-              widget.productData['productId'],
-              widget.productData['imageUrls'],
-              1,
-              widget.productData['productPrice'],
-              widget.productData['UserId'],
-              _selectedSize!,
-            );
+            //function to add product to cart
+            if (_selectedSize == null) {
+              return showSnack(context, 'Please Select A Size');
+            } else {
+              _cartProvider.addProductToCart(
+                widget.productData['productName'],
+                widget.productData['productId'],
+                widget.productData['imageUrls'],
+                1,
+                widget.productData['quantity'],
+                widget.productData['productPrice'],
+                widget.productData['UserId'],
+                _selectedSize!,
+              );
+            }
           },
           child: Container(
             height: 40,

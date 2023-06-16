@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sokomoja_project/Views/Customer/inner_screens/checkout_screen.dart';
 import 'package:sokomoja_project/provider/cart_provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -21,6 +22,16 @@ class CartScreen extends StatelessWidget {
             fontSize: 20,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _cartProvider.removeAllItems();
+            },
+            icon: Icon(
+              CupertinoIcons.delete,
+            ),
+          ),
+        ],
       ),
       body: ListView.builder(
         shrinkWrap: true,
@@ -68,36 +79,58 @@ class CartScreen extends StatelessWidget {
                             cartData.productSize,
                           ),
                         ),
-                        Container(
-                          height: 40,
-                          width: 110,
-                          decoration: BoxDecoration(
-                            color: Colors.lightGreen.shade900,
-                          ),
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  CupertinoIcons.minus,
-                                  color: Colors.white,
-                                ),
+                        Row(
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 115,
+                              decoration: BoxDecoration(
+                                color: Colors.lightGreen.shade900,
                               ),
-                              Text(
-                                cartData.quantity.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: cartData.quantity == 1
+                                        ? null
+                                        : () {
+                                            _cartProvider.decrement(cartData);
+                                          },
+                                    icon: Icon(
+                                      CupertinoIcons.minus,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    cartData.quantity.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: cartData.productQuantity ==
+                                            cartData.quantity
+                                        ? null
+                                        : () {
+                                            _cartProvider.increment(cartData);
+                                          },
+                                    icon: Icon(
+                                      CupertinoIcons.plus,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  CupertinoIcons.plus,
-                                  color: Colors.white,
-                                ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                _cartProvider.removeItem(cartData.productId);
+                              },
+                              icon: Icon(
+                                CupertinoIcons.cart_badge_minus,
+                                color: Colors.lightGreen.shade900,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -144,6 +177,40 @@ class CartScreen extends StatelessWidget {
       //     ],
       //   ),
       // ),
+
+      bottomSheet: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return CheckOutScreen();
+            }));
+          },
+          child: Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.lightGreen.shade900,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Text(
+                "KSH" +
+                    " " +
+                    _cartProvider.totalPrice.toStringAsFixed(2) +
+                    " " +
+                    'CHECKOUT',
+                style: TextStyle(
+                  color: Colors.white,
+                  letterSpacing: 5,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

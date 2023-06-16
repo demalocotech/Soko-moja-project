@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sokomoja_project/Views/Customer/auth/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +100,14 @@ class ProfileScreen extends StatelessWidget {
                   title: Text('Orders'),
                 ),
                 ListTile(
+                  onTap: () async {
+                    await _auth.signOut().whenComplete(() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginScreen();
+                      }));
+                    });
+                  },
                   leading: Icon(Icons.logout),
                   title: Text('Logout'),
                 ),
@@ -107,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
-        return CircularProgressIndicator();
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

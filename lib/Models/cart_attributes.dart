@@ -7,7 +7,9 @@ class CartAttr with ChangeNotifier {
 
   final List imageUrl;
 
-  final int quantity;
+  int quantity;
+
+  int productQuantity;
 
   final double productPrice;
 
@@ -20,8 +22,17 @@ class CartAttr with ChangeNotifier {
     required this.productId,
     required this.imageUrl,
     required this.quantity,
+    required this.productQuantity,
     required this.productPrice,
     required this.userId,
     required this.productSize,
   });
+
+  void increase() {
+    quantity++;
+  }
+
+  void decrease() {
+    quantity--;
+  }
 }
