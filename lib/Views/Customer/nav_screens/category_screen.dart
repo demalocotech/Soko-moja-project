@@ -13,11 +13,11 @@ class CategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightGreen.shade900,
         title: Text(
           'Categories',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
             letterSpacing: 3,
           ),
