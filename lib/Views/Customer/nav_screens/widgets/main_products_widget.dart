@@ -5,8 +5,10 @@ import 'package:sokomoja_project/Views/Customer/product_Detail/product_detail_sc
 class MainProductsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _productsStream =
-        FirebaseFirestore.instance.collection('products').snapshots();
+    final Stream<QuerySnapshot> _productsStream = FirebaseFirestore.instance
+        .collection('products')
+        .where('approved', isEqualTo: true)
+        .snapshots();
 
     return StreamBuilder<QuerySnapshot>(
       stream: _productsStream,

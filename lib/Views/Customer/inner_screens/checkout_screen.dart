@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:sokomoja_project/Views/Customer/inner_screens/edit_profile_screem.dart';
 import 'package:sokomoja_project/Views/Customer/main_screen.dart';
 import 'package:sokomoja_project/provider/cart_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -112,7 +113,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ),
             bottomSheet: customerData['email'] == ""
                 ? TextButton(
-                    onPressed: () {}, child: Text('enter email address'))
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: ((context) {
+                        return EditProfileScreen(
+                          userData: customerData,
+                        );
+                      }))).whenComplete(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: Text('enter email address'))
                 : Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
@@ -132,6 +143,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             'productPrice': item.productPrice,
                             'productId': item.productId,
                             'quantity': item.quantity,
+                            'total': _cartProvider.totalPrice,
                             'productSize': item.productSize,
                             'orderDate': DateTime.now(),
                           }).whenComplete(() {
