@@ -1,14 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sokomoja_project/Views/Customer/inner_screens/all_products_screen.dart';
+import 'package:sokomoja_project/Views/Customer/inner_screens/vendor_product_screen.dart';
 
-class MarketScreen extends StatelessWidget {
+class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
+
+  @override
+  State<MarketScreen> createState() => _MarketScreenState();
+}
+
+class _MarketScreenState extends State<MarketScreen> {
+  late String marketId;
 
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _marketsStream =
-        FirebaseFirestore.instance.collection('Markets').snapshots();
+        FirebaseFirestore.instance.collection('markets').snapshots();
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +56,16 @@ class MarketScreen extends StatelessWidget {
                   child: ListTile(
                     leading: Image.network(marketData['image']),
                     title: Text(marketData['marketName']),
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        marketId = marketData['marketId'];
+                      });
+
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: ((context) {
+                        return VendorProductScreen(marketId: marketId);
+                      })));
+                    },
                   ),
                 );
               },

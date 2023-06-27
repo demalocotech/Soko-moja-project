@@ -19,7 +19,7 @@ class _MainVendorScreenState extends State<MainVendorScreen> {
   List<Widget> _pages = [
     EarningsScreen(),
     VendorUploadScreen(),
-    EditScreen(),
+    EditProductScreen(),
     VendorOrderScreen(),
     VendorLogoutScreen(),
   ];

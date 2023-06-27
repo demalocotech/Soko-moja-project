@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Soko-Bold',
       ),
-      home: LoginScreen(),
+      home: VendorAuthScreen(),
       builder: EasyLoading.init(),
     );
   }
