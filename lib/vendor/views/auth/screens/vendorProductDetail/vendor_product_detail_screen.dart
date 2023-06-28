@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sokomoja_project/Utils/show_snackbar.dart';
 
 class VendorProductDetailScreen extends StatefulWidget {
   final dynamic productData;
@@ -106,17 +107,21 @@ class _VendorProductDetailScreenState extends State<VendorProductDetailScreen> {
         padding: const EdgeInsets.all(12.0),
         child: InkWell(
           onTap: () async {
-            await _firestore
-                .collection('products')
-                .doc(widget.productData['productId'])
-                .update({
-              'productName': _productNameController.text,
-              'brandName': _brandNameController.text,
-              'productPrice': productPrice,
-              'quantity': quantity,
-              'productDescription': _productDescriptionController.text,
-              'category': _categoryNameController.text,
-            });
+            if (productPrice != null && quantity != null) {
+              await _firestore
+                  .collection('products')
+                  .doc(widget.productData['productId'])
+                  .update({
+                'productName': _productNameController.text,
+                'brandName': _brandNameController.text,
+                'productPrice': productPrice,
+                'quantity': quantity,
+                'productDescription': _productDescriptionController.text,
+                'category': _categoryNameController.text,
+              });
+            } else {
+              showSnack(context, 'update Quantity and Price');
+            }
           },
           child: Container(
             height: 40,

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sokomoja_project/Views/Customer/auth/login_screen.dart';
+import 'package:sokomoja_project/Views/Customer/inner_screens/customer_order_screen.dart';
 import 'package:sokomoja_project/Views/Customer/inner_screens/edit_profile_screem.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -126,7 +128,13 @@ class ProfileScreen extends StatelessWidget {
                   title: Text('Cart'),
                 ),
                 ListTile(
-                  leading: Icon(Icons.shop),
+                  onTap: () async {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
+                      return CustomerOrderScreen();
+                    })));
+                  },
+                  leading: Icon(CupertinoIcons.list_bullet),
                   title: Text('Orders'),
                 ),
                 ListTile(

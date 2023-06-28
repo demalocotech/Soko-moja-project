@@ -133,6 +133,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         _cartProvider.getCartItem.forEach((key, item) {
                           final orderId = Uuid().v4();
                           _fireStore.collection('orders').doc(orderId).set({
+                            'accepted': false,
                             'orderId': orderId,
                             'vendorId': item.userId,
                             'email': customerData['email'],
@@ -145,6 +146,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             'quantity': item.quantity,
                             'total': _cartProvider.totalPrice,
                             'productSize': item.productSize,
+                            'productImage': item.imageUrl,
                             'orderDate': DateTime.now(),
                           }).whenComplete(() {
                             setState(() {
