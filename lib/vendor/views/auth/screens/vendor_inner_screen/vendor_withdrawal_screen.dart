@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class VendorWithdrawalScreen extends StatelessWidget {
   late String amount;
@@ -7,6 +9,8 @@ class VendorWithdrawalScreen extends StatelessWidget {
   late String providerName;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,9 @@ class VendorWithdrawalScreen extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
+                  onChanged: (value) {
+                    amount = value;
+                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please Enter Amount';
@@ -104,9 +111,22 @@ class VendorWithdrawalScreen extends StatelessWidget {
                   height: 15,
                 ),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      String transactionId = Uuid().v4();
+
                       ///store data to db
+                      await _firestore
+                          .collection('withdrawal')
+                          .doc(transactionId)
+                          .set({
+                        'amount': amount,
+                        'phoneNumber': mobileNumber,
+                        'providerName': providerName,
+                        'name': name,
+                        'transactionId': transactionId,
+                      });
+
                       print('cool');
                     } else {
                       print('false');

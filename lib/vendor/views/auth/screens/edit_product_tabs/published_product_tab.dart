@@ -25,8 +25,22 @@ class PublishedProductTab extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return CircularProgressIndicator(
+              color: Colors.lightGreen.shade900,
+            );
           }
+
+          if (snapshot.data!.docs.isEmpty)
+            return Center(
+              child: Text(
+                'No Published Products',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            );
 
           return Container(
             height: MediaQuery.of(context).size.height,
