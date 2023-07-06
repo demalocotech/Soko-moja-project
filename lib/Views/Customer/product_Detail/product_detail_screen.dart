@@ -95,7 +95,9 @@ class _productDetailScreenState extends State<productDetailScreen> {
               child: Text(
                 'Ksh' +
                     ' ' +
-                    widget.productData['productPrice'].toStringAsFixed(2),
+                    widget.productData['productPrice'].toStringAsFixed(2) +
+                    ' ' +
+                    '/ Packs',
                 style: TextStyle(
                   fontSize: 22,
                   letterSpacing: 8,

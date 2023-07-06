@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sokomoja_project/Views/Customer/auth/login_screen.dart';
 import 'package:sokomoja_project/Views/Customer/inner_screens/customer_order_screen.dart';
 import 'package:sokomoja_project/Views/Customer/inner_screens/edit_profile_screem.dart';
+import 'package:sokomoja_project/Views/Customer/nav_screens/cart_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -201,6 +202,12 @@ class ProfileScreen extends StatelessWidget {
                       ListTile(
                         leading: Icon(Icons.shopping_cart),
                         title: Text('Cart'),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: ((context) {
+                            return CartScreen();
+                          })));
+                        },
                       ),
                       ListTile(
                         onTap: () async {

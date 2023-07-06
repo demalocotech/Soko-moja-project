@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sokomoja_project/Views/Customer/inner_screens/vendor_market_product_screens/vendor_chats.dart';
+import 'package:sokomoja_project/Views/Customer/inner_screens/vendor_market_product_screens/chat_page.dart';
 import 'package:sokomoja_project/Views/Customer/inner_screens/vendor_market_product_screens/vendor_products.dart';
 
 class VendorProductChat extends StatelessWidget {
@@ -26,7 +26,10 @@ class VendorProductChat extends StatelessWidget {
           VendorProducts(
             vendorData: vendorData,
           ),
-          VendorChats(),
+          ChatPage(
+            receiverUserEmail: vendorData['email'],
+            receiverUserId: vendorData['userId'],
+          ),
         ]),
       ),
     );

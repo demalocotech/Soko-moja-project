@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sokomoja_project/Views/Customer/inner_screens/market_tab_screens/community_tab_screen.dart';
+
 import 'package:sokomoja_project/Views/Customer/inner_screens/market_tab_screens/info_tab_screen.dart';
 import 'package:sokomoja_project/Views/Customer/inner_screens/market_tab_screens/vendor_tab_screen.dart';
 
@@ -30,7 +30,7 @@ class VendorProductScreen extends StatelessWidget {
           Map<String, dynamic> marketData =
               snapshot.data!.data() as Map<String, dynamic>;
           return DefaultTabController(
-            length: 3,
+            length: 2,
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.lightGreen.shade900,
@@ -42,9 +42,6 @@ class VendorProductScreen extends StatelessWidget {
                   Tab(
                     child: Text('Vendors'),
                   ),
-                  Tab(
-                    child: Text('Community'),
-                  ),
                 ]),
               ),
               body: TabBarView(children: [
@@ -54,7 +51,6 @@ class VendorProductScreen extends StatelessWidget {
                 VendorTabScreen(
                   marketData: marketData,
                 ),
-                CommunityTabScreen(),
               ]),
             ),
           );

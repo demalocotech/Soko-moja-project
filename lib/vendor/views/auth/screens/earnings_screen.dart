@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sokomoja_project/vendor/views/auth/screens/inner_screen/chat_homepage.dart';
+import 'package:sokomoja_project/vendor/views/auth/screens/inner_screen/chat_screen.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/vendor_inner_screen/vendor_withdrawal_screen.dart';
 
 class EarningsScreen extends StatelessWidget {
@@ -56,7 +58,14 @@ class EarningsScreen extends StatelessWidget {
                   ],
                 ),
                 actions: [
-                  IconButton(onPressed: () {}, icon: Icon(Icons.chat_bubble)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: ((context) {
+                          return ChatHomePage();
+                        })));
+                      },
+                      icon: Icon(Icons.chat_bubble)),
                 ],
               ),
               body: StreamBuilder<QuerySnapshot>(
