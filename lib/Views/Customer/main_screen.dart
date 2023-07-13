@@ -5,6 +5,7 @@ import 'package:sokomoja_project/Views/Customer/nav_screens/category_screen.dart
 import 'package:sokomoja_project/Views/Customer/nav_screens/home_screen.dart';
 import 'package:sokomoja_project/Views/Customer/nav_screens/market_screen.dart';
 import 'package:sokomoja_project/Views/Customer/nav_screens/profile_screen.dart';
+import 'package:sokomoja_project/Views/Customer/nav_screens/search_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     MarketScreen(),
     CategoryScreen(),
+    SearchScreen(),
     CartScreen(),
     ProfileScreen(),
   ];
@@ -58,6 +60,13 @@ class _MainScreenState extends State<MainScreen> {
               width: 25,
             ),
             label: 'CATEGORY',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/magnifying-glass-solid.svg',
+              width: 25,
+            ),
+            label: 'SEARCH',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(

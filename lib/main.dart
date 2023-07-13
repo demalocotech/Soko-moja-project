@@ -1,19 +1,20 @@
-import 'dart:ffi';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart';
 import 'package:provider/provider.dart';
-import 'package:sokomoja_project/Views/Customer/auth/login_screen.dart';
-import 'package:sokomoja_project/Views/Customer/main_screen.dart';
-import 'package:sokomoja_project/Views/Customer/nav_screens/search_screen.dart';
+
+import 'package:sokomoja_project/Views/Customer/landing/landing_screen.dart';
+import 'package:sokomoja_project/Views/Customer/nav_screens/widgets/mpesa/keys.dart';
+
 import 'package:sokomoja_project/provider/cart_provider.dart';
 import 'package:sokomoja_project/provider/product_provider.dart';
-import 'package:sokomoja_project/vendor/views/auth/screens/main_vendor_screen.dart';
-import 'package:sokomoja_project/vendor/views/auth/vendor_auth.dart';
 
 void main() async {
+  MpesaFlutterPlugin.setConsumerKey(kConsumerKey);
+  MpesaFlutterPlugin.setConsumerSecret(kConsumerSecret);
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Soko-Bold',
       ),
-      home: LoginScreen(),
+      home: MainLandingScreen(),
       builder: EasyLoading.init(),
     );
   }
