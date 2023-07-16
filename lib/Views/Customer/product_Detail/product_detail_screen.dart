@@ -96,8 +96,8 @@ class _productDetailScreenState extends State<productDetailScreen> {
                 'Ksh' +
                     ' ' +
                     widget.productData['productPrice'].toStringAsFixed(2) +
-                    ' ' +
-                    '/ Packs',
+                    ' '
+                        '/ Pack',
                 style: TextStyle(
                   fontSize: 22,
                   letterSpacing: 8,

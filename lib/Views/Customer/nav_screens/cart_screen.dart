@@ -12,6 +12,9 @@ class CartScreen extends StatelessWidget {
     final CartProvider _cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.lightGreen.shade900,
+        ),
         backgroundColor: Colors.lightGreen.shade900,
         elevation: 0,
         title: Text(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sokomoja_project/Views/Customer/product_Detail/product_detail_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.lightGreen.shade900,
+          ),
           backgroundColor: Colors.lightGreen.shade900,
           title: TextFormField(
             onChanged: (value) {
@@ -67,34 +71,42 @@ class _SearchScreenState extends State<SearchScreen> {
                   return SingleChildScrollView(
                     child: Column(
                       children: searchedData.map((e) {
-                        return Card(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: Image.network(e['imageUrls'][0]),
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    e['productName'],
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: ((context) {
+                              return productDetailScreen(productData: e);
+                            })));
+                          },
+                          child: Card(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: Image.network(e['imageUrls'][0]),
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      e['productName'],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    e['productPrice'].toStringAsFixed(2),
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.lightGreen.shade900,
+                                    Text(
+                                      e['productPrice'].toStringAsFixed(2),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.lightGreen.shade900,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }).toList(),

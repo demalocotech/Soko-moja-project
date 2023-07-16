@@ -17,6 +17,9 @@ class ProfileScreen extends StatelessWidget {
     return _auth.currentUser == null
         ? Scaffold(
             appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Colors.lightGreen.shade900,
+              ),
               backgroundColor: Colors.lightGreen.shade900,
               elevation: 4,
               title: Text(
@@ -107,6 +110,9 @@ class ProfileScreen extends StatelessWidget {
                     snapshot.data!.data() as Map<String, dynamic>;
                 return Scaffold(
                   appBar: AppBar(
+                    iconTheme: IconThemeData(
+                      color: Colors.lightGreen.shade900,
+                    ),
                     backgroundColor: Colors.lightGreen.shade900,
                     elevation: 4,
                     title: Text(

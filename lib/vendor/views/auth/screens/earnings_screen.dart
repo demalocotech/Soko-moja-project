@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sokomoja_project/Views/Customer/inner_screens/vendor_market_product_screens/chat_bubble.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/inner_screen/chat_homepage.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/inner_screen/chat_screen.dart';
 import 'package:sokomoja_project/vendor/views/auth/screens/vendor_inner_screen/vendor_withdrawal_screen.dart';
@@ -10,6 +11,11 @@ class EarningsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _ratingsStream = FirebaseFirestore.instance
+        .collection('ratings')
+        .where('vendorId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .snapshots();
+
     final Stream<QuerySnapshot> _ordersStream = FirebaseFirestore.instance
         .collection('orders')
         .where('vendorId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -189,6 +195,69 @@ class EarningsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                            ),
+                          ),
+                          Container(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: _ratingsStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text('Something went wrong');
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Text("Loading");
+                                }
+
+                                final ratingData = snapshot.data!.docs
+                                    .map((DocumentSnapshot document) {
+                                  return document.data()!
+                                      as Map<String, dynamic>;
+                                }).toList();
+
+                                double totalRating = 0.0;
+
+                                if (ratingData.isNotEmpty) {
+                                  ratingData.forEach((doc) {
+                                    totalRating += doc['rating'];
+                                  });
+                                }
+
+                                double averageRating = (ratingData.isNotEmpty)
+                                    ? totalRating / ratingData.length
+                                    : 0.0;
+
+                                return ListView.builder(
+                                  itemCount: ratingData.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final rating = ratingData[index];
+
+                                    return ListTile(
+                                      title: Text('Rating' +
+                                              ' ' +
+                                              rating['rating'].toString() ??
+                                          ''),
+                                      subtitle: Text('Your Total Ratings:' +
+                                              ' ' +
+                                              ratingData.length.toString() +
+                                              ' ' +
+                                              'average:' +
+                                              ' ' +
+                                              averageRating
+                                                  .toStringAsFixed(2) ??
+                                          ''),
+                                      trailing: ChatBubble(
+                                        message: rating['comment'],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ],

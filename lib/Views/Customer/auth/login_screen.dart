@@ -31,6 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (BuildContext) {
           return MainScreen();
         }));
+      } else if (res != 'success') {
+        setState(() {
+          _isLoading = false;
+          _formKey.currentState!.reset();
+          showSnack(context, 'invalid account');
+        });
       }
 
       // _authcontroller.whenComplete(() {

@@ -58,21 +58,7 @@ class VendorTabScreen extends StatelessWidget {
                     // Check if ratingSnapshot has data
                     if (!ratingSnapshot.hasData ||
                         ratingSnapshot.data!.docs.isEmpty) {
-                      // Handle the case when there are no ratings for the vendor
-                      // return Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   // ... existing code
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       // ... existing code
-                      //       Text(
-                      //         'No Ratings', // Display this when there are no ratings
-                      //       ),
-                      //       // ... existing code
-                      //     ],
-                      //   ),
-                      // );
+                   
                     }
 
                     // Get rating data
