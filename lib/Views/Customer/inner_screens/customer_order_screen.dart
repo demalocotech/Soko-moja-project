@@ -8,6 +8,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart';
 
+
 class CustomerOrderScreen extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String formatedDate(date) {
@@ -16,7 +17,7 @@ class CustomerOrderScreen extends StatelessWidget {
     return outPutDate;
   }
 
-  Future<dynamic> startTransaction(double amount, String phoneNumber) async {
+  Future<dynamic> startTransaction(double amount, String phoneNumber, DocumentSnapshot document) async {
     dynamic transactionInitialisation;
 //Wrap it with a try-catch
     try {
@@ -31,7 +32,7 @@ class CustomerOrderScreen extends StatelessWidget {
               partyA: phoneNumber,
               partyB: "174379",
               callBackURL: Uri(
-                  scheme: "https", host: "1234.1234.co.ke", path: "/1234.php"),
+                  scheme: "https", host: "payment-twmuqn6lgq-uc.a.run.app", path: "payment"),
               accountReference: "payment",
               phoneNumber: phoneNumber,
               baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
@@ -40,12 +41,33 @@ class CustomerOrderScreen extends StatelessWidget {
                   "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919");
 
       var result = transactionInitialisation as Map<String, dynamic>;
+
       if (result.keys.contains("ResponseCode")) {
         String mResponseCode = result['ResponseCode'];
         print('Resulting Code:' + mResponseCode);
         if (mResponseCode == '0') {
           // updateAccount(result['CheckoutRequestID']);
         }
+
+        var CheckoutRequestID = result["CheckoutRequestID"];
+        var CustomerMessage = result["CustomerMessage"];
+        var MerchantRequestID = result["MerchantRequestID"];
+
+        await FirebaseFirestore.instance
+            .collection('pending_payments')
+            .doc(CheckoutRequestID)
+            .set({
+          'userId':  FirebaseAuth.instance.currentUser!.uid,
+          'time': DateTime.now().toString().split(" ")[0],
+          'amount': amount,
+          'phoneNumber': phoneNumber,
+          'paymentMethod': 'M-pesa',
+          'orderId': document["orderId"],
+          'vendorId': document["vendorId"],
+          'CheckoutRequestID': CheckoutRequestID,
+          'MerchantRequestID': MerchantRequestID,
+        });
+
       }
 
       print('RESULT:' + transactionInitialisation.toString());
@@ -238,7 +260,7 @@ class CustomerOrderScreen extends StatelessWidget {
                       ),
                       SlidableAction(
                         onPressed: (context) async {
-                          startTransaction(10.0, "254799097714");
+                          startTransaction(1.0, "254799097714", document);
                         },
                         backgroundColor: Color(0xFF21B7CA),
                         foregroundColor: Colors.white,
