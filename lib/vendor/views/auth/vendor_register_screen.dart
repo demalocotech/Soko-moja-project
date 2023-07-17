@@ -41,11 +41,6 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
 
   String? _marketStatus;
 
-  List<String> _marketOptions = [
-    'Nyeri',
-    'Karatina',
-    'Githurai',
-  ];
   _saveVendorDetail() async {
     EasyLoading.show(status: 'please wait');
     if (_formKey.currentState!.validate()) {

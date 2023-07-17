@@ -8,6 +8,7 @@ import 'package:sokomoja_project/Views/Customer/inner_screens/edit_profile_scree
 import 'package:sokomoja_project/Views/Customer/main_screen.dart';
 
 import 'package:sokomoja_project/provider/cart_provider.dart';
+import 'package:sokomoja_project/services/app_services.dart';
 import 'package:uuid/uuid.dart';
 
 class CheckOutScreen extends StatefulWidget {
@@ -138,6 +139,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           final orderId = Uuid().v4();
                           if (rating != 0 && comment != '')
                             _fireStore.collection('orders').doc(orderId).set({
+                              'payed': false,
                               'accepted': false,
                               'orderId': orderId,
                               'vendorId': item.userId,
@@ -157,6 +159,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               setState(() {
                                 _cartProvider.getCartItem.clear();
                               });
+                              AppService.generateReport(
+                                  title: 'ORDER PLACED REPORT',
+                                  content:
+                                      'The order $orderId placed by ${customerData['firstName']} for ${item.quantity} ${item.productName} from vendor with id ${item.userId} wasplaced on ${DateTime.now()}');
                               EasyLoading.dismiss();
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: ((context) {

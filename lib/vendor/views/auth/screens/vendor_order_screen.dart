@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:sokomoja_project/services/app_services.dart';
 
 class VendorOrderScreen extends StatelessWidget {
   String formatedDate(date) {
@@ -205,6 +206,10 @@ class VendorOrderScreen extends StatelessWidget {
                               .update({
                             'accepted': true,
                           });
+                          AppService.generateReport(
+                              title: 'ORDER ACCEPTED REPORT',
+                              content:
+                                  'The order ${document['orderId']} placed by ${document['firstName']} for  from vendor with id ${FirebaseAuth.instance.currentUser!.uid} was accepted on ${DateTime.now()}');
                         },
                         backgroundColor: Color(0xFF21B7CA),
                         foregroundColor: Colors.white,

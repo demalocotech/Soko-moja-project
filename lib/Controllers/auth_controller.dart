@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../services/app_services.dart';
+
 class AuthController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -59,6 +61,10 @@ class AuthController {
           'createdAt': Timestamp.now(),
           'profileImage': profileImageUrl,
         });
+        AppService.generateReport(
+            title: 'SIGN UP REPORT',
+            content:
+                'The user (customer) with Id:${cred.user!.uid} ,$firstName $lastName signed up for an account on the app on ${timestamp.toString()}');
 
         res = 'success';
       } else {
@@ -75,6 +81,10 @@ class AuthController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(
             email: email, password: password);
+        AppService.generateReport(
+            title: 'LOG IN REPORT',
+            content:
+                'The user(customer) with Id:${FirebaseAuth.instance.currentUser!.uid} bearing email:$email logged into the app on ${timestamp.toString()}');
         res = 'success';
       } else {
         res = 'fields must not be empty';

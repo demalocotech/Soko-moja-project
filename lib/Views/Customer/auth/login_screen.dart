@@ -3,6 +3,7 @@ import 'package:sokomoja_project/Controllers/auth_controller.dart';
 import 'package:sokomoja_project/Utils/show_snackbar.dart';
 import 'package:sokomoja_project/Views/Customer/auth/register_screen.dart';
 import 'package:sokomoja_project/Views/Customer/landing/landing_screen.dart';
+import 'package:sokomoja_project/services/app_services.dart';
 
 import '../main_screen.dart';
 

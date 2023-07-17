@@ -7,7 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:intl/intl.dart';
 import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart';
-
+import 'package:sokomoja_project/services/app_services.dart';
 
 class CustomerOrderScreen extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,7 +17,8 @@ class CustomerOrderScreen extends StatelessWidget {
     return outPutDate;
   }
 
-  Future<dynamic> startTransaction(double amount, String phoneNumber, DocumentSnapshot document) async {
+  Future<dynamic> startTransaction(
+      double amount, String phoneNumber, DocumentSnapshot document) async {
     dynamic transactionInitialisation;
 //Wrap it with a try-catch
     try {
@@ -32,7 +33,9 @@ class CustomerOrderScreen extends StatelessWidget {
               partyA: phoneNumber,
               partyB: "174379",
               callBackURL: Uri(
-                  scheme: "https", host: "payment-twmuqn6lgq-uc.a.run.app", path: "payment"),
+                  scheme: "https",
+                  host: "payment-twmuqn6lgq-uc.a.run.app",
+                  path: "payment"),
               accountReference: "payment",
               phoneNumber: phoneNumber,
               baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
@@ -57,7 +60,7 @@ class CustomerOrderScreen extends StatelessWidget {
             .collection('pending_payments')
             .doc(CheckoutRequestID)
             .set({
-          'userId':  FirebaseAuth.instance.currentUser!.uid,
+          'userId': FirebaseAuth.instance.currentUser!.uid,
           'time': DateTime.now().toString().split(" ")[0],
           'amount': amount,
           'phoneNumber': phoneNumber,
@@ -67,13 +70,26 @@ class CustomerOrderScreen extends StatelessWidget {
           'CheckoutRequestID': CheckoutRequestID,
           'MerchantRequestID': MerchantRequestID,
         });
-
       }
 
       print('RESULT:' + transactionInitialisation.toString());
     } catch (e) {
       print("Exception caught:" + e.toString());
     }
+  }
+
+  updatePaymentAccount(DocumentSnapshot document, double amount) async {
+    await reportRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        AppService.generateReport(
+            title: 'PaymentReport',
+            content:
+                'the order with ID ${document['orderId']} was paid for by ${FirebaseAuth.instance.currentUser!.uid} ,amount $amount for product provided by ${document['vendorId']}');
+      }
+    });
   }
 
   @override
@@ -260,7 +276,19 @@ class CustomerOrderScreen extends StatelessWidget {
                       ),
                       SlidableAction(
                         onPressed: (context) async {
-                          startTransaction(1.0, "254799097714", document);
+                          //replace amount and phone
+                          startTransaction(15,
+                                "254799097714", document)
+                              .whenComplete(() async {
+                            await updatePaymentAccount(
+                                document, 15);
+                            await _firestore
+                                .collection('orders')
+                                .doc(document['orderId'])
+                                .update({
+                                  'payed': true,
+                                });
+                          });
                         },
                         backgroundColor: Color(0xFF21B7CA),
                         foregroundColor: Colors.white,
